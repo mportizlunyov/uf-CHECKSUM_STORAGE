@@ -1,3 +1,2 @@
 # update_full-CHECKSUMS
-Temporarily private, used for Checksums
-Checksums for the various update_full repos.
+This repository holds the checksums needed for verification of the update_full suite files.
