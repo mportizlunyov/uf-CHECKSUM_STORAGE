@@ -6,7 +6,7 @@
 # Checks for ROOT user
 case $USER in
     "root")
-    printf "Continuing to check checksums\n"
+    printf "USER: $USER\n"
         ;;
     *)
         printf "Using this script without ROOT priviledges is forbidden\n"
@@ -24,34 +24,34 @@ case $2 in
     "CURL")
         case $3 in
             "true")
-                echo "CURL INSECURE!!!"
+                echo "* DOWNLOADING using CURL [--insecure !!!]"
                 curl --insecure --remote-name --silent https://raw.githubusercontent.com/mportizlunyov/uf-CHECKSUM_STORAGE/main/Update_Full-UNIX/latest/update_full-unix-$1.sha256sum
                 curl --insecure --remote-name --silent https://raw.githubusercontent.com/mportizlunyov/uf-CHECKSUM_STORAGE/main/Update_Full-UNIX/latest/update_full-unix-$1.sha512sum
                 ;;
             "false")
-                echo "NORMAL CURL"
+                echo "* DOWNLOADING using CURL"
                 curl --remote-name --silent https://raw.githubusercontent.com/mportizlunyov/uf-CHECKSUM_STORAGE/main/Update_Full-UNIX/latest/update_full-unix-$1.sha256sum
                 curl --remote-name --silent https://raw.githubusercontent.com/mportizlunyov/uf-CHECKSUM_STORAGE/main/Update_Full-UNIX/latest/update_full-unix-$1.sha512sum
                 ;;
             *)
-                printf "Check program!\n"
+                printf "\t!!! INTERNAL PROGRAM ERROR !!!\n"
                 exit 1
                 ;;
         esac
         ;;
     "WGET")
-        echo "WGET"
+        echo "* DOWNLOADING using WGET"
         wget --quiet https://raw.githubusercontent.com/mportizlunyov/uf-CHECKSUM_STORAGE/main/Update_Full-UNIX/latest/update_full-unix-$1.sha256sum
         wget --quiet https://raw.githubusercontent.com/mportizlunyov/uf-CHECKSUM_STORAGE/main/Update_Full-UNIX/latest/update_full-unix-$1.sha512sum
         ;;
     *)
-        printf "Neither CURL nor WGET exists, cannot continue!\n"
+        printf "\n\t^ Neither CURL nor WGET exists, cannot continue!!!\n"
         exit 1
         ;;
 esac
 # If checksum files are not rpesent
 if [ ! -f "./update_full-unix-$1.sha256sum" ] && [ ! -f "update_full-unix-$1.sha512sum" ] ; then
-    printf "Checksums failed to download using $2, check connection\n"
+    printf "\n\t ^ Checksums FAILED to download using $2, check connection!!!\n"
     rm ./update_full-unix-$1.sha256sum > /dev/null 2>&1
     rm ./update_full-unix-$1.sha512sum > /dev/null 2>&1
     exit 1
@@ -64,9 +64,9 @@ echo "$(sha256sum ./update_full-unix.sh | cut -d ' ' -f 1)" > ./tempfile_ACTUAL2
 echo "$(sha512sum ./update_full-unix.sh | cut -d ' ' -f 1)" > ./tempfile_ACTUAL512
 # Compare and Contrast checksums, and take action based on similarity
 if [ "$(cat ./update_full-unix-$1.sha256sum)" = "$(cat ./tempfile_ACTUAL256)" ] && [ "$(cat ./update_full-unix-$1.sha512sum)" = "$(cat ./tempfile_ACTUAL512)" ] ; then
-    printf "MATCHING [up-to-date and secure to use]!\n"
+    printf "\t < MATCHING [up-to-date and secure to use]! >\n"
 else
-    printf " !!!CHECKSUM MIS-MATCH !!!\nCheck for NEWER VERSION or check for TAMPERING\n"
+    printf "\t^ !!!CHECKSUM MIS-MATCH !!!\n\t ^ Check for NEWER VERSION or check for TAMPERING\n"
     printf "Currently running v$1\n"
     rm ./update_full-unix-$1.sha256sum > /dev/null 2>&1
     rm ./update_full-unix-$1.sha512sum > /dev/null 2>&1
@@ -74,7 +74,7 @@ else
     rm ./tempfile_ACTUAL512 > /dev/null 2>&1
     exit 1
 fi
-
+# If everything runs as normal
 rm ./update_full-unix-$1.sha256sum > /dev/null 2>&1
 rm ./update_full-unix-$1.sha512sum > /dev/null 2>&1
 rm ./tempfile_ACTUAL256 > /dev/null 2>&1
