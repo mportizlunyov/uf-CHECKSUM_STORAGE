@@ -64,7 +64,7 @@ echo "$(sha256sum ./update_full-unix.sh | cut -d ' ' -f 1)" > ./tempfile_ACTUAL2
 echo "$(sha512sum ./update_full-unix.sh | cut -d ' ' -f 1)" > ./tempfile_ACTUAL512
 # Compare and Contrast checksums, and take action based on similarity
 if [ "$(cat ./update_full-unix-$1.sha256sum)" = "$(cat ./tempfile_ACTUAL256)" ] && [ "$(cat ./update_full-unix-$1.sha512sum)" = "$(cat ./tempfile_ACTUAL512)" ] ; then
-    printf "\t < MATCHING [up-to-date and secure to use]! >\n"
+    printf "\t \e[1m< MATCHING [up-to-date and secure to use]! >\e[0m\n"
 else
     printf "\t^ !!!CHECKSUM MIS-MATCH !!!\n\t ^ Check for NEWER VERSION or check for TAMPERING\n"
     printf "Currently running v$1\n"
