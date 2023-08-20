@@ -61,15 +61,18 @@ fi
 echo "$(cat ./update_full-unix-$1.sha256sum | cut -d ' ' -f 1)" > ./update_full-unix-$1.sha256sum
 echo "$(cat ./update_full-unix-$1.sha512sum | cut -d ' ' -f 1)" > ./update_full-unix-$1.sha512sum
 # Format actual checksums
-echo "$(sha256sum ./update_full-unix.sh | cut -d ' ' -f 1 || cksum -a sha256 -q ./update_full-unix.sh)" > ./tempfile_ACTUAL256
-echo "$(sha512sum ./update_full-unix.sh | cut -d ' ' -f 1 || cksum -a sha512 -q ./update_full-unix.sh)" > ./tempfile_ACTUAL512
-echo "$(cat ./tempfile_ACTUAL256)"
+echo "$(sha256sum ./update_full-unix.sh | cut -d ' ' -f 1)" > ./tempfile_ACTUAL256
+echo "$(sha512sum ./update_full-unix.sh | cut -d ' ' -f 1)" > ./tempfile_ACTUAL512
+if [ ! -s "./tempfile_ACTUAL256" ] || [ ! -s ".tempfile_ACTUAL512" ] ; then
+    echo "$(cksum -a 256 -q ./update_full-unix.sh)" > ./tempfile_ACTUAL256
+    echo "$(cksum -a 512 -q ./update_full-unix.sh)" > ./tempfile_ACTUAL512
+fi
 # Compare and Contrast checksums, and take action based on similarity
 if [ "$(cat ./update_full-unix-$1.sha256sum)" = "$(cat ./tempfile_ACTUAL256)" ] && [ "$(cat ./update_full-unix-$1.sha512sum)" = "$(cat ./tempfile_ACTUAL512)" ] ; then
     printf "\t \e[1m< MATCHING [up-to-date and secure to use]! >\e[0m\n"
 else
     printf "\t^ !!!CHECKSUM MIS-MATCH !!!\n\t ^ Check for NEWER VERSION or check for TAMPERING\n"
-    printf "Currently running v$1\n"
+    printf "* Currently running v$1\n"
     #rm ./update_full-unix-$1.sha256sum > /dev/null 2>&1
     #rm ./update_full-unix-$1.sha512sum > /dev/null 2>&1
     #rm ./tempfile_ACTUAL256 > /dev/null 2>&1
