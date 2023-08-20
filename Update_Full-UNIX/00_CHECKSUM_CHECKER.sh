@@ -64,8 +64,8 @@ echo "$(cat ./update_full-unix-$1.sha512sum | cut -d ' ' -f 1)" > ./update_full-
 echo "$(sha256sum ./update_full-unix.sh | cut -d ' ' -f 1)" > ./tempfile_ACTUAL256
 echo "$(sha512sum ./update_full-unix.sh | cut -d ' ' -f 1)" > ./tempfile_ACTUAL512
 if [ ! -s "./tempfile_ACTUAL256" ] || [ ! -s ".tempfile_ACTUAL512" ] ; then
-    echo "$(cksum -a 256 -q ./update_full-unix.sh)" > ./tempfile_ACTUAL256
-    echo "$(cksum -a 512 -q ./update_full-unix.sh)" > ./tempfile_ACTUAL512
+    echo "$(cksum -a sha256 -q ./update_full-unix.sh)" > ./tempfile_ACTUAL256
+    echo "$(cksum -a sha512 -q ./update_full-unix.sh)" > ./tempfile_ACTUAL512
 fi
 # Compare and Contrast checksums, and take action based on similarity
 if [ "$(cat ./update_full-unix-$1.sha256sum)" = "$(cat ./tempfile_ACTUAL256)" ] && [ "$(cat ./update_full-unix-$1.sha512sum)" = "$(cat ./tempfile_ACTUAL512)" ] ; then
