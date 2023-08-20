@@ -63,6 +63,7 @@ echo "$(cat ./update_full-unix-$1.sha512sum | cut -d ' ' -f 1)" > ./update_full-
 # Format actual checksums
 echo "$(sha256sum ./update_full-unix.sh | cut -d ' ' -f 1 || cksum -a sha256 -q ./update_full-unix.sh)" > ./tempfile_ACTUAL256
 echo "$(sha512sum ./update_full-unix.sh | cut -d ' ' -f 1 || cksum -a sha512 -q ./update_full-unix.sh)" > ./tempfile_ACTUAL512
+echo "$(cat ./tempfile_ACTUAL256)"
 # Compare and Contrast checksums, and take action based on similarity
 if [ "$(cat ./update_full-unix-$1.sha256sum)" = "$(cat ./tempfile_ACTUAL256)" ] && [ "$(cat ./update_full-unix-$1.sha512sum)" = "$(cat ./tempfile_ACTUAL512)" ] ; then
     printf "\t \e[1m< MATCHING [up-to-date and secure to use]! >\e[0m\n"
