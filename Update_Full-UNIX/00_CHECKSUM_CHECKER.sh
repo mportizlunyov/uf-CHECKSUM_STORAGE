@@ -69,10 +69,10 @@ if [ "$(cat ./update_full-unix-$1.sha256sum)" = "$(cat ./tempfile_ACTUAL256)" ] 
 else
     printf "\t^ !!!CHECKSUM MIS-MATCH !!!\n\t ^ Check for NEWER VERSION or check for TAMPERING\n"
     printf "Currently running v$1\n"
-    rm ./update_full-unix-$1.sha256sum > /dev/null 2>&1
-    rm ./update_full-unix-$1.sha512sum > /dev/null 2>&1
-    rm ./tempfile_ACTUAL256 > /dev/null 2>&1
-    rm ./tempfile_ACTUAL512 > /dev/null 2>&1
+    #rm ./update_full-unix-$1.sha256sum > /dev/null 2>&1
+    #rm ./update_full-unix-$1.sha512sum > /dev/null 2>&1
+    #rm ./tempfile_ACTUAL256 > /dev/null 2>&1
+    #rm ./tempfile_ACTUAL512 > /dev/null 2>&1
     exit 1
 fi
 # If everything runs as normal
