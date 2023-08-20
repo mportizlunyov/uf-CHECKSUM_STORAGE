@@ -17,7 +17,7 @@ esac
 if [ ! -f "./update_full-unix.sh" ] ; then
     # If missing, print Error message and quit
     printf "update_full-unix.sh script NOT FOUND!\n"
-    printf "Current Directory: [ $(ls) ]\n"
+    printf "Current Directory: [\n$(ls)\n]\n"
     exit 1
 fi
 # Decides which tool to use to extract checksums
@@ -61,8 +61,8 @@ fi
 echo "$(cat ./update_full-unix-$1.sha256sum | cut -d ' ' -f 1)" > ./update_full-unix-$1.sha256sum
 echo "$(cat ./update_full-unix-$1.sha512sum | cut -d ' ' -f 1)" > ./update_full-unix-$1.sha512sum
 # Format actual checksums
-echo "$(sha256sum ./update_full-unix.sh | cut -d ' ' -f 1)" > ./tempfile_ACTUAL256
-echo "$(sha512sum ./update_full-unix.sh | cut -d ' ' -f 1)" > ./tempfile_ACTUAL512
+echo "$(sha256sum ./update_full-unix.sh | cut -d ' ' -f 1 || cksum -a sha256 -q ./update_full-unix.sh)" > ./tempfile_ACTUAL256
+echo "$(sha512sum ./update_full-unix.sh | cut -d ' ' -f 1 || cksum -a sha512 -q ./update_full-unix.sh)" > ./tempfile_ACTUAL512
 # Compare and Contrast checksums, and take action based on similarity
 if [ "$(cat ./update_full-unix-$1.sha256sum)" = "$(cat ./tempfile_ACTUAL256)" ] && [ "$(cat ./update_full-unix-$1.sha512sum)" = "$(cat ./tempfile_ACTUAL512)" ] ; then
     printf "\t \e[1m< MATCHING [up-to-date and secure to use]! >\e[0m\n"
