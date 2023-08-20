@@ -17,6 +17,7 @@ esac
 if [ ! -f "./update_full-unix.sh" ] ; then
     # If missing, print Error message and quit
     printf "update_full-unix.sh script NOT FOUND!\n"
+    printf "Current Directory: [ $(ls) ]\n"
     exit 1
 fi
 # Decides which tool to use to extract checksums
