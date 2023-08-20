@@ -52,7 +52,7 @@ case $2 in
 esac
 # If checksum files are not rpesent
 if [ ! -f "./update_full-unix-$1.sha256sum" ] && [ ! -f "update_full-unix-$1.sha512sum" ] ; then
-    printf "\n\t ^ Checksums FAILED to download using $2, check connection!!!\n"
+    printf "\n\t ^ Checksums FAILED to download using $2, check connection!!\n"
     rm ./update_full-unix-$1.sha256sum > /dev/null 2>&1
     rm ./update_full-unix-$1.sha512sum > /dev/null 2>&1
     exit 1
@@ -63,7 +63,7 @@ echo "$(cat ./update_full-unix-$1.sha512sum | cut -d ' ' -f 1)" > ./update_full-
 # Format actual checksums
 echo "$(sha256sum ./update_full-unix.sh | cut -d ' ' -f 1)" > ./tempfile_ACTUAL256
 echo "$(sha512sum ./update_full-unix.sh | cut -d ' ' -f 1)" > ./tempfile_ACTUAL512
-if [ ! -s "./tempfile_ACTUAL256" ] || [ ! -s ".tempfile_ACTUAL512" ] ; then
+if [ "$(cat ./tempfile_ACTUAL256)" = "" ] || [ "$( cat ./tempfile_ACTUAL512)" = "" ] ; then
     echo "$(cksum -a sha256 -q ./update_full-unix.sh)" > ./tempfile_ACTUAL256
     echo "$(cksum -a sha512 -q ./update_full-unix.sh)" > ./tempfile_ACTUAL512
 fi
