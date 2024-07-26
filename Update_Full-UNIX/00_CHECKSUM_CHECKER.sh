@@ -1,4 +1,4 @@
-# Written by Mikhail Patricio Ortiz-Lunyov
+# Written by Mikhail P. Ortiz-Lunyov (mportizlunyov)
 #
 # This script is intended to be called from the main Update_Full-UNIX script.
 # Running this script manually is optional and possibe, but not the intended use case
