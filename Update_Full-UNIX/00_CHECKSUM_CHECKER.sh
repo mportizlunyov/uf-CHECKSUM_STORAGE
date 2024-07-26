@@ -20,7 +20,7 @@ if [ ! -f "./update_full-unix.sh" ] ; then
 fi
 # Decides which tool to use to extract checksums
 case $2 in
-    "CURL")
+    "curl")
         case $3 in
             "true")
                 echo "* DOWNLOADING using CURL [--insecure !!!]"
@@ -39,7 +39,7 @@ case $2 in
                 ;;
         esac
         ;;
-    "WGET")
+    "wget")
         echo "* DOWNLOADING using WGET"
         wget --quiet https://raw.githubusercontent.com/mportizlunyov/uf-CHECKSUM_STORAGE/main/Update_Full-UNIX/latest/update_full-unix-$1.sha256sum &
         wget --quiet https://raw.githubusercontent.com/mportizlunyov/uf-CHECKSUM_STORAGE/main/Update_Full-UNIX/latest/update_full-unix-$1.sha512sum &
