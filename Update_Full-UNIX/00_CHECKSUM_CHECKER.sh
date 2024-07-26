@@ -11,6 +11,13 @@ case $USER in
         exit 1
         ;;
 esac
+# Check if old sha256 and sha512 checksums exist
+if [ -f "./update_full-unix-$1.sha256sum" ] ; then
+    rm ./update_full-unix-$1.sha256sum
+fi
+if [ -f "./update_full-unix-$1.sha512sum" ] ; then
+    rm ./update_full-unix-$1.sha512sum
+fi
 # Check for existence of Update_Full-UNIX file in local directory
 if [ ! -f "./update_full-unix.sh" ] ; then
     # If missing, print Error message and quit
