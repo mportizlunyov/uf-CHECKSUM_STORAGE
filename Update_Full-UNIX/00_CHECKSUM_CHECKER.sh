@@ -52,8 +52,9 @@ esac
 # If checksum files are not rpesent
 if [ ! -f "./update_full-unix-$1.sha256sum" ] && [ ! -f "update_full-unix-$1.sha512sum" ] ; then
     printf "\n\t ^ Checksums FAILED to download using $2, check connection!!\n"
-    rm ./update_full-unix-$1.sha256sum > /dev/null 2>&1
-    rm ./update_full-unix-$1.sha512sum > /dev/null 2>&1
+    rm ./update_full-unix-$1.sha256sum > /dev/null 2>&1 &
+    rm ./update_full-unix-$1.sha512sum > /dev/null 2>&1 &
+    wait
     exit 1
 fi
 # Format downloaded checksums
@@ -65,8 +66,9 @@ echo "$(sha256sum ./update_full-unix.sh | cut -d ' ' -f 1)" > ./tempfile_ACTUAL2
 echo "$(sha512sum ./update_full-unix.sh | cut -d ' ' -f 1)" > ./tempfile_ACTUAL512 &
 wait
 if [ "$(cat ./tempfile_ACTUAL256)" = "" ] || [ "$( cat ./tempfile_ACTUAL512)" = "" ] ; then
-    echo "$(cksum -a sha256 -q ./update_full-unix.sh)" > ./tempfile_ACTUAL256
-    echo "$(cksum -a sha512 -q ./update_full-unix.sh)" > ./tempfile_ACTUAL512
+    echo "$(cksum -a sha256 -q ./update_full-unix.sh)" > ./tempfile_ACTUAL256 &
+    echo "$(cksum -a sha512 -q ./update_full-unix.sh)" > ./tempfile_ACTUAL512 &
+    wait
 fi
 # Compare and Contrast checksums, and take action based on similarity
 if [ "$(cat ./update_full-unix-$1.sha256sum)" = "$(cat ./tempfile_ACTUAL256)" ] && [ "$(cat ./update_full-unix-$1.sha512sum)" = "$(cat ./tempfile_ACTUAL512)" ] ; then
