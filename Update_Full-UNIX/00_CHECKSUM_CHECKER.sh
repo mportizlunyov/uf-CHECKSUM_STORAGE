@@ -32,6 +32,7 @@ case $2 in
                 echo "* DOWNLOADING using CURL"
                 curl --remote-name --silent https://raw.githubusercontent.com/mportizlunyov/uf-CHECKSUM_STORAGE/main/Update_Full-UNIX/latest/update_full-unix-$1.sha256sum &
                 curl --remote-name --silent https://raw.githubusercontent.com/mportizlunyov/uf-CHECKSUM_STORAGE/main/Update_Full-UNIX/latest/update_full-unix-$1.sha512sum &
+                wait
                 ;;
             *)
                 printf "\t!!! INTERNAL PROGRAM ERROR !!!\n"
@@ -43,6 +44,7 @@ case $2 in
         echo "* DOWNLOADING using WGET"
         wget --quiet https://raw.githubusercontent.com/mportizlunyov/uf-CHECKSUM_STORAGE/main/Update_Full-UNIX/latest/update_full-unix-$1.sha256sum &
         wget --quiet https://raw.githubusercontent.com/mportizlunyov/uf-CHECKSUM_STORAGE/main/Update_Full-UNIX/latest/update_full-unix-$1.sha512sum &
+        wait
         ;;
     *)
         printf "\n\t^ Neither CURL nor WGET exists, cannot continue!!!\n"
