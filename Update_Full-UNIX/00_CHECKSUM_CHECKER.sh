@@ -12,14 +12,14 @@ case $USER in
         ;;
 esac
 # Check if old sha256 and sha512 checksums exist
-if [ -f "./update_full-unix-$1.sha256sum" ] ; then
-    rm ./update_full-unix-$1.sha256sum
+if [ -f "$4/update_full-unix-$1.sha256sum" ] ; then
+    rm $4/update_full-unix-$1.sha256sum
 fi
-if [ -f "./update_full-unix-$1.sha512sum" ] ; then
-    rm ./update_full-unix-$1.sha512sum
+if [ -f "$4/update_full-unix-$1.sha512sum" ] ; then
+    rm $4/update_full-unix-$1.sha512sum
 fi
 # Check for existence of Update_Full-UNIX file in local directory
-if [ ! -f "./update_full-unix.sh" ] ; then
+if [ ! -f "$4/update_full-unix.sh" ] ; then
     # If missing, print Error message and quit
     printf "update_full-unix.sh script NOT FOUND!\n"
     printf "Current Directory: [\n$(ls)\n]\n"
@@ -56,24 +56,24 @@ case $2 in
         ;;
 esac
 # If checksum files are not rpesent
-if [ ! -f "./update_full-unix-$1.sha256sum" ] && [ ! -f "update_full-unix-$1.sha512sum" ] ; then
+if [ ! -f "$4/update_full-unix-$1.sha256sum" ] && [ ! -f "$4/update_full-unix-$1.sha512sum" ] ; then
     printf "\n\t ^ Checksums FAILED to download using $2, check connection!!\n"
-    rm ./update_full-unix-$1.sha256sum > /dev/null 2>&1
-    rm ./update_full-unix-$1.sha512sum > /dev/null 2>&1
+    rm $4/update_full-unix-$1.sha256sum > /dev/null 2>&1
+    rm $4/update_full-unix-$1.sha512sum > /dev/null 2>&1
     exit 1
 fi
 # Format downloaded checksums
-echo "$(cat ./update_full-unix-$1.sha256sum | cut -d ' ' -f 1)" > ./update_full-unix-$1.sha256sum
-echo "$(cat ./update_full-unix-$1.sha512sum | cut -d ' ' -f 1)" > ./update_full-unix-$1.sha512sum
+echo "$(cat $4/update_full-unix-$1.sha256sum | cut -d ' ' -f 1)" > $4/update_full-unix-$1.sha256sum
+echo "$(cat $4/update_full-unix-$1.sha512sum | cut -d ' ' -f 1)" > $4/update_full-unix-$1.sha512sum
 # Format actual checksums
-echo "$(sha256sum ./update_full-unix.sh | cut -d ' ' -f 1)" > ./tempfile_ACTUAL256
-echo "$(sha512sum ./update_full-unix.sh | cut -d ' ' -f 1)" > ./tempfile_ACTUAL512
-if [ "$(cat ./tempfile_ACTUAL256)" = "" ] || [ "$( cat ./tempfile_ACTUAL512)" = "" ] ; then
-    echo "$(cksum -a sha256 -q ./update_full-unix.sh)" > ./tempfile_ACTUAL256
-    echo "$(cksum -a sha512 -q ./update_full-unix.sh)" > ./tempfile_ACTUAL512
+echo "$(sha256sum $4/update_full-unix.sh | cut -d ' ' -f 1)" > $4/tempfile_ACTUAL256
+echo "$(sha512sum $4/update_full-unix.sh | cut -d ' ' -f 1)" > $4/tempfile_ACTUAL512
+if [ "$(cat $4/tempfile_ACTUAL256)" = "" ] || [ "$( cat $4/tempfile_ACTUAL512)" = "" ] ; then
+    echo "$(cksum -a sha256 -q $4/update_full-unix.sh)" > $4/tempfile_ACTUAL256
+    echo "$(cksum -a sha512 -q $4/update_full-unix.sh)" > $4/tempfile_ACTUAL512
 fi
 # Compare and Contrast checksums, and take action based on similarity
-if [ "$(cat ./update_full-unix-$1.sha256sum)" = "$(cat ./tempfile_ACTUAL256)" ] && [ "$(cat ./update_full-unix-$1.sha512sum)" = "$(cat ./tempfile_ACTUAL512)" ] ; then
+if [ "$(cat $4/update_full-unix-$1.sha256sum)" = "$(cat $4/tempfile_ACTUAL256)" ] && [ "$(cat $4/update_full-unix-$1.sha512sum)" = "$(cat $4/tempfile_ACTUAL512)" ] ; then
     printf "\t \e[1m< MATCHING [up-to-date and secure to use]! >\e[0m\n"
 else
     printf "\t^ !!!CHECKSUM MIS-MATCH !!!\n\t ^ Check for NEWER VERSION or check for TAMPERING\n"
@@ -81,8 +81,8 @@ else
     exit 1
 fi
 # If everything runs as normal
-rm ./update_full-unix-$1.sha256sum > /dev/null 2>&1
-rm ./update_full-unix-$1.sha512sum > /dev/null 2>&1
-rm ./tempfile_ACTUAL256 > /dev/null 2>&1
-rm ./tempfile_ACTUAL512 > /dev/null 2>&1
+rm $4/update_full-unix-$1.sha256sum > /dev/null 2>&1
+rm $4/update_full-unix-$1.sha512sum > /dev/null 2>&1
+rm $4/tempfile_ACTUAL256 > /dev/null 2>&1
+rm $4/tempfile_ACTUAL512 > /dev/null 2>&1
 exit 0
