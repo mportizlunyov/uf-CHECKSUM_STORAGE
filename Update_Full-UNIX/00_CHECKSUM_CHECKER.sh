@@ -3,6 +3,8 @@
 # This script is intended to be called from the main Update_Full-UNIX script.
 # Running this script manually is optional and possibe, but not the intended use case
 
+echo $4
+
 # Checks for ROOT user
 case $USER in
     "root") printf "USER: $USER\n" ;;
